@@ -10,5 +10,5 @@ A small React Native app to keep your brain sharp.
 
 [Quick Quiz](https://github.com/jsknight/quick_quiz)
 is a React Native app built with Expo for easy testing. 
-Test your brain power on text questions across different categories.
+Test your brain power on ten questions across different categories.
 What will your top score be?
