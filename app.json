@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Quick Quiz",
+    "description": "A small React Native app to keep your brain sharp, built with React Native and Expo",
     "slug": "quick_quiz",
     "privacy": "public",
     "sdkVersion": "32.0.0",
