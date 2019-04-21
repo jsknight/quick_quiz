@@ -11,6 +11,12 @@ import Question from "../components/QuestionComponent";
 import { fetchQuestions, saveAnswer, saveQuiz } from "../actions"
 import { Redirect} from "react-router-native";
 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+// QUESTIONS PAGE 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+
 class App extends React.Component {
 
     constructor(props) {
@@ -23,18 +29,17 @@ class App extends React.Component {
         };
     }
 
-
+    // Reset Quiz method resets current question counter 
+    // and triggers REDUX action to clear scores and answers
     resetQuiz = () => {
-        this.setState(
-          {
+        this.setState({
             current: 0,
-          },
-          () => {
+        },() => {
             this.props.fetchQuestions();
-          }
-        );
+        });
     };
 
+    // Check if answer is correct and then persist results to REDUX store
     submitAnswer = (index, answer) => {
         const question = this.props.questions[index];
         const isCorrect = question.correct_answer === answer;
@@ -55,10 +60,13 @@ class App extends React.Component {
     };
 
     componentDidMount() {
-        this.props.fetchQuestions();
+        this.props.fetchQuestions(); // Fetch Questions via REDUX
     }
 
     render() {
+
+        // If all 10 questions have been answered
+        // Redirect to the Results screen
         if (this.props.completed === true){
             return <Redirect to='/results' />
         }
@@ -74,6 +82,7 @@ class App extends React.Component {
             )}
 
             {!!this.props.questions.length > 0 && this.props.completed === false && (
+                // Load Question Component
                 <Question onSelect={answer => { this.submitAnswer(this.state.current, answer)}}
                     question={this.props.questions[this.state.current]}
                     correctPosition={Math.floor(Math.random() * 3)}

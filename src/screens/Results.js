@@ -14,14 +14,21 @@ import { Redirect} from "react-router-native";
 const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+// RESULTS PAGE 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+
 class App extends React.Component {
 
   _keyExtractor = (item, index) => item.id.toString()
 
   render() {
-    if (this.props.completed === false){
-      console.log("CLEAR SUCCESS");
-      console.log(this.props);
+
+    // After "Play Again" button is pressed and Quiz has 
+    // been cleared redirect back to Index to satrt again
+    if (this.props.completed === false){ 
       return <Redirect to='/' />
     }
 

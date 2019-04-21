@@ -4,11 +4,15 @@ import {
   Text,
   View,
   Image,
-  Button,
-  ActivityIndicator
 } from "react-native";
 import Questions from "./Questions";
 import { Link } from "react-router-native";
+
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+// INTRO PAGE 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
 
 export default class App extends React.Component {
     render() {

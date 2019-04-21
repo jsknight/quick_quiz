@@ -4,67 +4,76 @@ import ProgressBar from "./ProgressBar";
 const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+// QUESTION COMPONENT 
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+
 export default class QuestionComponent extends React.Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
+        this.state = {
+            answer: null,
+            progress: 10
+        };
+    }
 
-    this.state = {
-      answer: null,
-      progress: 10
-    };
-  }
+    updateProgress = () => {
+        this.setState({
+            progress : this.state.progress + 10
+        });
+    }
 
-  updateProgress = () => {
-      this.setState({
-        progress : this.state.progress + 10
-      });
-  }
+    markAnswer = (val) => {
+        this.props.onSelect(val);
+        this.updateProgress();
+    }
 
-  markAnswer = (val) => {
-    this.props.onSelect(val);
-    this.updateProgress();
-  }
+    render() {
+        return (
+            <SafeAreaView style={styles.safe}>
 
-  render() {
-    return (
-        <SafeAreaView style={styles.safe}>
-            <ProgressBar
-                fillStyle={{
-                    backgroundColor: "#f33d73"
-                }}
-                style={{marginTop: 0, width: "100%", marginBottom:30}}
-                backgroundStyle={{backgroundColor: "#bbb", borderRadius: 0}}
-            progress={this.state.progress}
-            />
-            <View style={styles.container}>
+                {/* 
+                    ///////////////////////////////
+                    LOAD THE PROGRESS BAR COMPONENT
+                    /////////////////////////////// 
+                */}
+                <ProgressBar 
+                    fillStyle={{backgroundColor: "#f33d73"}}
+                    style={{marginTop: 0, width: "100%", marginBottom:30}}
+                    backgroundStyle={{backgroundColor: "#bbb", borderRadius: 0}}
+                    progress={this.state.progress}
+                />
 
-                <View style={styles.category_bar}>
-                    <Text style={styles.category}>
-                    { entities.decode(this.props.question.category) }
-                    </Text>
-                </View>
-                
-                <View style={styles.question_block}>
-                    <Text style={styles.question}>
-                    { entities.decode(this.props.question.question) }
-                    </Text>
-                </View>
-
-                <View style={styles.answer_block_wrap} >
-                    <View style={styles.answer_block}>
-                        <TouchableOpacity style={styles.answer_button} onPress={() => this.markAnswer("True")}>
-                            <Text style={styles.answer_button_text}>TRUE</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.or}>or</Text>
-                        <TouchableOpacity style={styles.answer_button} onPress={() => this.markAnswer("False")}>
-                            <Text style={styles.answer_button_text}>FALSE</Text>
-                        </TouchableOpacity>
+                <View style={styles.container}>
+                    <View style={styles.category_bar}>
+                        <Text style={styles.category}>
+                        {/* Entities Decode returned data from API */}
+                        { entities.decode(this.props.question.category) }
+                        </Text>
+                    </View>
+                    <View style={styles.question_block}>
+                        <Text style={styles.question}>
+                        {/* Entities Decode returned data from API */}
+                        { entities.decode(this.props.question.question) }
+                        </Text>
+                    </View>
+                    <View style={styles.answer_block_wrap} >
+                        <View style={styles.answer_block}>
+                            <TouchableOpacity style={styles.answer_button} onPress={() => this.markAnswer("True")}>
+                                <Text style={styles.answer_button_text}>TRUE</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.or}>or</Text>
+                            <TouchableOpacity style={styles.answer_button} onPress={() => this.markAnswer("False")}>
+                                <Text style={styles.answer_button_text}>FALSE</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </SafeAreaView>
-    )
-  }
+            </SafeAreaView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

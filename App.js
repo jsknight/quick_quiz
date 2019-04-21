@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator, View , Text} from 'react-native';
-import { NativeRouter, Route, Link, BackButton } from "react-router-native";
+import { StyleSheet, View} from 'react-native';
+import { NativeRouter, Route, BackButton } from "react-router-native";
 import { Provider } from "react-redux";
 import configureStore from "./src/boot/configureStore";
 import Index from "./src/screens/Index";
@@ -9,8 +9,17 @@ import Results from "./src/screens/Results";
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from "@expo/vector-icons";
 
-const store = configureStore();
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
+// MAIN APP ENTRY POINT
+// ///////////////////////////////////////////////
+// ///////////////////////////////////////////////
 
+// Set up Redux Store
+const store = configureStore(); 
+
+
+// Prefetch & Cache Images
 function cacheImages(images) {
   return images.map(image => {
     if (typeof image === 'string') {
@@ -21,6 +30,7 @@ function cacheImages(images) {
   });
 }
 
+// Cache Fonts
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
@@ -43,6 +53,7 @@ export default class App extends React.Component {
   
   render() {
 
+    // Load assets that need to be pre-fetched using Expo App Loading
     if (!this.state.isReady) {
       return (
         <AppLoading
