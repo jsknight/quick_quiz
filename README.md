@@ -4,7 +4,7 @@ A small React Native app to keep your brain sharp.
 # View on Expo
 [https://expo.io/@jknight/quick_quiz](https://expo.io/@jknight/quick_quiz)
 
-![Scan Me](https://github.com/jsknight/quick_quiz/blob/master/git-assets/Quic-Quiz.png)
+![Scan Me](https://github.com/jsknight/quick_quiz/blob/master/git-assets/Quick-Quiz.png)
 
 ### Running the app
 
