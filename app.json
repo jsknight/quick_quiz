@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "githubUrl": "https://github.com/jsknight/quick_quiz"
   }
 }
