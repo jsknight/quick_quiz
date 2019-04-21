@@ -15,7 +15,7 @@ What will your top score be?
 
 ## Screenshots
 
-![Intro Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/intro.PNG)
-![Index Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/index.PNG)
-![Question Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/questions.PNG)
-![Results Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/results.PNG)
+![Intro Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/intro.PNG){:width="200px"}
+![Index Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/index.PNG){:width="200px"}
+![Question Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/question.PNG){:width="200px"}
+![Results Screen](https://github.com/jsknight/quick_quiz/blob/master/git-assets/results.PNG){:width="200px"}
