@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import Questions from "./Questions";
 import { Link } from "react-router-native";
-import { Ionicons } from "@expo/vector-icons";
 
 export default class App extends React.Component {
     render() {

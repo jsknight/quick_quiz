@@ -4,81 +4,68 @@ import {
     Text, 
     View, 
     ActivityIndicator,
-    Picker,
     Button
 } from "react-native";
-import { Link } from "react-router-native";
+import { connect } from 'react-redux';
 import Question from "../components/QuestionComponent";
+import { fetchQuestions, saveAnswer, saveQuiz } from "../actions"
+import { Redirect} from "react-router-native";
 
-export default class App extends React.Component {
+class App extends React.Component {
+
     constructor(props) {
         super(props);
     
         this.state = {
-          loading: false,
-          questions: [],
-    
-          current: 0,
-          correctScore: 10,
-          totalScore: 100,
-    
-          results: {
-            score: 0,
-            correctAnswers: 0
-          },
-          completed: false
+            current: 0,
+            correctScore: 10,
+            totalScore: 100,
         };
     }
 
-    fetchQuestions = async () => {
-        await this.setState({ loading: true });
-        const response = await fetch("https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean");
-        const questions = await response.json();
-        const { results } = questions;
-    
-        await this.setState({ questions: results, loading: false });
-    };
 
     resetQuiz = () => {
         this.setState(
           {
-            questions: [],
             current: 0,
-            results: {
-              score: 0,
-              correctAnswers: 0
-            },
-            completed: false
           },
           () => {
-            this.fetchQuestions();
+            this.props.fetchQuestions();
           }
         );
     };
 
     submitAnswer = (index, answer) => {
-        const question = this.state.questions[index];
+        const question = this.props.questions[index];
         const isCorrect = question.correct_answer === answer;
-        const results = { ...this.state.results };
-    
+        const results = { ...this.props.results };
         results.score = isCorrect ? results.score + 10 : results.score;
         results.correctAnswers = isCorrect ? results.correctAnswers + 1 : results.correctAnswers;
-    
+        const current_answer = {
+            "id": index,
+            "question" : question,
+            "is_correct": isCorrect
+        };
+
+        this.props.answers.push(current_answer);
+        this.props.saveAnswer(this.props.answers, results, index === 9 ? true : false);
         this.setState({
           current: index + 1,
-          results,
-          completed: index === 9 ? true : false
         });
     };
 
     componentDidMount() {
-        this.fetchQuestions();
+        this.props.fetchQuestions();
     }
 
     render() {
+        if (this.props.completed === true){
+            return <Redirect to='/results' />
+        }
+
         return (
           <View style={styles.container}>
-            {!!this.state.loading && (
+            {!!this.props.loading && (
                 <View style={styles.loader}>
                     <ActivityIndicator style={styles.indicator} size="large" color="#f33d73" />
                     <Text style={styles.loader_text}>Setting up your questions.</Text>
@@ -86,22 +73,22 @@ export default class App extends React.Component {
                 </View>
             )}
 
-            {!!this.state.questions.length > 0 && this.state.completed === false && (
+            {!!this.props.questions.length > 0 && this.props.completed === false && (
                 <Question onSelect={answer => { this.submitAnswer(this.state.current, answer)}}
-                    question={this.state.questions[this.state.current]}
+                    question={this.props.questions[this.state.current]}
                     correctPosition={Math.floor(Math.random() * 3)}
                     current={this.state.current}
                 />
             )}
             
-            {!this.state.loading &&  this.state.completed === true && (
+            {!this.props.loading &&  this.props.completed === true && (
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }} >
-                    {this.state.completed === true && (
+                    {this.props.completed === true && (
                         <View style={{ alignItems: "center" }}>
                             <Text style={{ fontSize: 25 }}>Quiz Completed</Text>
-                            <Text>Correct Answers: {this.state.results.correctAnswers}</Text>
-                            <Text>Incorrect Answers: {10 - this.state.results.correctAnswers} </Text>
-                            <Text>Obtained Score: {this.state.results.score}%</Text>
+                            <Text>Correct Answers: {this.props.results.correctAnswers}</Text>
+                            <Text>Incorrect Answers: {10 - this.props.results.correctAnswers} </Text>
+                            <Text>Obtained Score: {this.props.results.score}%</Text>
                             <Button title="Restart Quiz" onPress={() => this.resetQuiz() } />
                         </View>
                     )}
@@ -137,3 +124,23 @@ const styles = StyleSheet.create({
         color: "#666"
     }
 });
+
+function mapStateToProps(state){
+    return{
+        loading: state.main.loading,
+        completed: state.main.completed,
+        questions: state.main.questions,
+        answers: state.main.answers,
+        results: state.main.results
+    }
+};
+
+function bindAction(dispatch){
+    return {
+        fetchQuestions: () => dispatch(fetchQuestions()),
+        saveAnswer: (answers, results, completed) => dispatch(saveAnswer(answers, results, completed))
+    }
+}
+
+
+export default connect(mapStateToProps, bindAction)(App);

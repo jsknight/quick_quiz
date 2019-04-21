@@ -41,11 +41,7 @@ export default class ProgressBar extends React.Component {
         var fillWidth = this.state.progress.interpolate({
           inputRange: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
           outputRange: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-        });
-
-        console.log("fillWidth");
-        console.log(fillWidth);
-    
+        });    
         return (
             <View style={[styles.background, this.props.style, this.props.backgroundStyle]}>
                 <Animated.View style={[styles.fill, this.props.fillStyle, { flex: fillWidth }]}/>
